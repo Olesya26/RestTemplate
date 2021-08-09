@@ -32,22 +32,18 @@ public class UserController {
 
     }
 
-    public ResponseEntity<String> addUser() {
-        User user = new User(3L,"James", "Brown", (byte)30);
+    public ResponseEntity<String> addUser(User user) {
         HttpEntity<User> entity = new HttpEntity<>(user, headers);
-        return restTemplate.postForEntity(URL_USERS, entity, String.class);
+        return restTemplate.exchange(URL_USERS, HttpMethod.POST, entity, String.class);
     }
 
-    public ResponseEntity<String> updateUser() {
-        User userUpdate = new User(3L, "Thomas", "Shelby", (byte) 40);
+    public ResponseEntity<String> updateUser(User userUpdate) {
         HttpEntity<User> entity = new HttpEntity<>(userUpdate, headers);
         return restTemplate.exchange(URL_USERS, HttpMethod.PUT, entity, String.class);
 
     }
 
-    public ResponseEntity<String> deleteUser() {
-        Map<String, Long> params = new HashMap<>();
-        params.put("id", 3L);
+    public ResponseEntity<String> deleteUser(Map<String, Long> params) {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(DELETE_URL_USERS, HttpMethod.DELETE, entity, String.class,params);
     }

@@ -6,7 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.ResponseEntity;
-;
+;import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 public class RestTemplateApplication {
@@ -21,12 +22,19 @@ public class RestTemplateApplication {
         ResponseEntity<String> allUsers = userController.getAllUsers();
         System.out.println(allUsers);
 
-        ResponseEntity<String> responseEntity = userController.addUser();
+        User user = new User(3L,"James", "Brown", (byte)30);
+        ResponseEntity<String> responseEntity = userController.addUser(user);
         String text = responseEntity.getBody();
-        ResponseEntity<String> responseEntity1 = userController.updateUser();
+
+        User userUpdate = new User(3L, "Thomas", "Shelby", (byte) 40);
+        ResponseEntity<String> responseEntity1 = userController.updateUser(userUpdate);
         text += responseEntity1.getBody();
-        ResponseEntity<String> responseEntity2 = userController.deleteUser();
+
+        Map<String, Long> params = new HashMap<>();
+        params.put("id", 3L);
+        ResponseEntity<String> responseEntity2 = userController.deleteUser(params);
         text += responseEntity2.getBody();
+
         System.out.println(text);
     }
 
